@@ -4,7 +4,7 @@ abstract class AppColorsDark {
   static const Color primary = Color(0xFF5FD9D2);
   static const Color onPrimary = Color(0xFF003735);
   static const Color primaryContainer = Color(0xFF03A29C);
-  static const Color onPrimaryContainer = Color(0xFF00302E);
+  static const Color onPrimaryContainer = Color(0XFF1b2120);
   static const Color inversePrimary = Color(0xFF006A66);
 
   static const Color secondary = Color(0xFFA3CFCB);
@@ -46,7 +46,7 @@ abstract class AppColorsLight {
   static const Color primary = Color(0xFF006763);
   static const Color onPrimary = Color(0xFFFFFFFF);
   static const Color primaryContainer = Color(0xFF00837E);
-  static const Color onPrimaryContainer = Color(0xFFF3FFFD);
+  static const Color onPrimaryContainer = Color(0xfff9f9f9);
   static const Color inversePrimary = Color(0xFF5FD9D2);
 
   static const Color secondary = Color(0xFF4F6261);
