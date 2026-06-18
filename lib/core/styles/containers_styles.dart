@@ -16,4 +16,9 @@ abstract class AppContainersStyle {
     borderRadius: BorderRadius.circular(16),
     border: Border(left: BorderSide(color: piority.color, width: 3)),
   );
+  static ShapeDecoration newTicketsContainer(BuildContext context) =>
+      ShapeDecoration(
+        color: context.colors.surfaceBright,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      );
 }

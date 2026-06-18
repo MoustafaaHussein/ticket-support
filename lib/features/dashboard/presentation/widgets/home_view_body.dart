@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ticket_app/core/constants/app_text_styles.dart';
+import 'package:ticket_app/core/router/app_router.dart';
 import 'package:ticket_app/core/widgets/new_ticket_button.dart';
 import 'package:ticket_app/features/dashboard/presentation/widgets/collapsed_tickets_list.dart';
 import 'package:ticket_app/features/dashboard/presentation/widgets/recent_tickets_bar.dart';
@@ -37,7 +39,13 @@ class HomeViewBody extends StatelessWidget {
           Positioned(
             bottom: 20,
             right: 0,
-            child: NewTicketButton(onPressed: () {}),
+            child: NewTicketButton(
+              title: 'New Ticket',
+              icon: Icons.add,
+              onPressed: () {
+                GoRouter.of(context).push(AppRouter.kcreateTicketViewRoute);
+              },
+            ),
           ),
         ],
       ),

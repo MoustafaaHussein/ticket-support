@@ -6,9 +6,13 @@ class NewTicketButton extends StatelessWidget {
   const NewTicketButton({
     super.key,
     required this.onPressed,
+    required this.title,
+    this.icon,
   });
 
   final VoidCallback onPressed;
+  final String title;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +30,13 @@ class NewTicketButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.add, color: colors.onPrimary, size: 20),
+              Icon(icon, color: colors.onPrimary, size: 20),
               const SizedBox(width: 8),
               Text(
-                'New Ticket',
-                style: AppTextStyles.semiBold16Primary(context).copyWith(
-                  color: colors.onPrimary,
-                ),
+                title,
+                style: AppTextStyles.semiBold16Primary(
+                  context,
+                ).copyWith(color: colors.onPrimary),
               ),
             ],
           ),
