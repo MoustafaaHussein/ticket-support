@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ticket_app/core/constants/app_text_styles.dart';
 import 'package:ticket_app/core/router/app_router.dart';
 import 'package:ticket_app/core/widgets/new_ticket_button.dart';
 import 'package:ticket_app/features/dashboard/presentation/widgets/tickets_list.dart';
 import 'package:ticket_app/features/tickets/data/models/tickets_status_model.dart';
+import 'package:ticket_app/features/tickets/presentation/cubit/ticket_cubit.dart';
+import 'package:ticket_app/features/tickets/presentation/cubit/ticket_state.dart';
 import 'package:ticket_app/features/tickets/presentation/widgets/search_text_field.dart';
 import 'package:ticket_app/features/tickets/presentation/widgets/tickets_status_cards.dart';
 
@@ -48,9 +51,21 @@ class _AllTicketsViewBodyState extends State<AllTicketsViewBody> {
                 }).toList(),
               ),
               SizedBox(height: 20),
-              Text(
-                '48 tickets found',
-                style: AppTextStyles.semiBold16Secondary(context),
+              BlocBuilder<TicketCubit, TicketState>(
+                builder: (context, state) {
+                  final count = switch (state) {
+                    TicketLoaded(:final tickets) => tickets.length,
+                    TicketsEmpty() => 0,
+                    _ => null,
+                  };
+
+                  return Text(
+                    count == null
+                        ? 'Loading tickets...'
+                        : '$count ticket${count == 1 ? '' : 's'} found',
+                    style: AppTextStyles.semiBold16Secondary(context),
+                  );
+                },
               ),
               SizedBox(height: 20),
               Expanded(flex: 6, child: TicketsList()),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ticket_app/core/constants/app_text_styles.dart';
 import 'package:ticket_app/core/router/app_router.dart';
@@ -8,11 +9,19 @@ import 'package:ticket_app/core/widgets/custom_text_field.dart';
 import 'package:ticket_app/core/widgets/primary_button.dart';
 import 'package:ticket_app/features/dashboard/domain/enum/tickets_piority.dart';
 import 'package:ticket_app/features/tickets/data/models/ticket_category_model.dart';
+import 'package:ticket_app/features/tickets/data/models/ticket_model.dart';
+import 'package:ticket_app/features/tickets/domain/enums/ticket_status.dart';
+import 'package:ticket_app/features/tickets/presentation/cubit/ticket_cubit.dart';
 import 'package:ticket_app/features/tickets/presentation/widgets/piorty_card.dart';
 import 'package:ticket_app/features/tickets/presentation/widgets/ticket_categories_list.dart';
 
 class CreateTicketViewBody extends StatefulWidget {
-  const CreateTicketViewBody({super.key});
+  const CreateTicketViewBody({
+    super.key,
+    this.isSubmitting = false,
+  });
+
+  final bool isSubmitting;
 
   @override
   State<CreateTicketViewBody> createState() => _CreateTicketViewBodyState();
@@ -30,6 +39,33 @@ class _CreateTicketViewBodyState extends State<CreateTicketViewBody> {
     subjectController.dispose();
     descriptionController.dispose();
     super.dispose();
+  }
+
+  void _submitTicket(BuildContext context) {
+    if (selectedPriority == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a priority')),
+      );
+      return;
+    }
+
+    if (selectedCategory == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a category')),
+      );
+      return;
+    }
+
+    context.read<TicketCubit>().createTicket(
+          TicketModel(
+            id: 0,
+            title: subjectController.text.trim(),
+            description: descriptionController.text.trim(),
+            priority: selectedPriority!,
+            status: TicketStatus.open,
+            createdAt: DateTime.now(),
+          ),
+        );
   }
 
   @override
@@ -53,6 +89,8 @@ class _CreateTicketViewBodyState extends State<CreateTicketViewBody> {
                 selectedCategory = category;
               });
             },
+            isSubmitting: widget.isSubmitting,
+            onSubmit: () => _submitTicket(context),
           ),
         ],
       ),
@@ -69,6 +107,8 @@ class CreateTicketForm extends StatelessWidget {
     required this.onPriorityChanged,
     required this.selectedCategory,
     required this.onCategoryChanged,
+    required this.onSubmit,
+    this.isSubmitting = false,
   });
 
   final TextEditingController subjectController;
@@ -79,6 +119,8 @@ class CreateTicketForm extends StatelessWidget {
 
   final TicketCategoryModel? selectedCategory;
   final ValueChanged<TicketCategoryModel> onCategoryChanged;
+  final VoidCallback onSubmit;
+  final bool isSubmitting;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -177,13 +219,15 @@ class CreateTicketForm extends StatelessWidget {
             ),
             SizedBox(height: 20),
             PrimaryButton(
-              title: 'Create Ticket',
-              icon: Icons.send,
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  // TODO: Create ticket
-                }
-              },
+              title: isSubmitting ? 'Creating...' : 'Create Ticket',
+              icon: isSubmitting ? null : Icons.send,
+              onPressed: isSubmitting
+                  ? () {}
+                  : () {
+                      if (_formKey.currentState!.validate()) {
+                        onSubmit();
+                      }
+                    },
             ),
             SizedBox(height: 20),
             CancelButton(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_app/core/constants/app_text_styles.dart';
+import 'package:ticket_app/core/utils/format_time_ago.dart';
 import 'package:ticket_app/core/styles/containers_styles.dart';
 import 'package:ticket_app/features/dashboard/presentation/widgets/tickets_piorty_container.dart';
 import 'package:ticket_app/features/tickets/data/models/ticket_model.dart';
@@ -28,7 +29,10 @@ class CollapsedTickets extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(ticket.id, style: AppTextStyles.bold16Secondary(context)),
+              Text(
+                '#${ticket.id}',
+                style: AppTextStyles.bold16Secondary(context),
+              ),
               const Spacer(),
               TicketsPiortyContainer(piority: ticket.priority),
             ],
@@ -53,7 +57,7 @@ class CollapsedTickets extends StatelessWidget {
               Text("Mostafa", style: AppTextStyles.medium16Secondary(context)),
               Spacer(),
               Text(
-                "15 Mins ago",
+                formatTimeAgo(ticket.createdAt),
                 style: AppTextStyles.medium16Secondary(context),
               ),
             ],

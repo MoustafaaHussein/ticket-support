@@ -8,7 +8,7 @@ extension TicketsPiorityExtension on TicketsPiority {
     TicketsPiority.medium => Colors.deepOrangeAccent,
     TicketsPiority.low => Colors.green,
   };
-  String get name => switch (this) {
+  String get label => switch (this) {
     TicketsPiority.high => "High",
     TicketsPiority.medium => "Medium",
     TicketsPiority.low => "Low",

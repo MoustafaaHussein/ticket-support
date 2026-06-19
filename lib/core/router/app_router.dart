@@ -1,5 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ticket_app/core/utils/service_locator.dart';
 import 'package:ticket_app/features/dashboard/presentation/screens/home_view.dart';
+import 'package:ticket_app/features/tickets/presentation/cubit/ticket_cubit.dart';
 import 'package:ticket_app/features/tickets/presentation/screens/all_tickets_view.dart';
 import 'package:ticket_app/features/tickets/presentation/screens/create_ticket_view.dart';
 
@@ -13,15 +16,24 @@ class AppRouter {
     routes: [
       GoRoute(
         path: khomeViewRoute,
-        builder: (context, state) => const HomeView(),
+        builder: (context, state) => BlocProvider<TicketCubit>.value(
+          value: sl<TicketCubit>(),
+          child: const HomeView(),
+        ),
       ),
       GoRoute(
         path: kcreateTicketViewRoute,
-        builder: (context, state) => const CreateTicketView(),
+        builder: (context, state) => BlocProvider<TicketCubit>.value(
+          value: sl<TicketCubit>(),
+          child: const CreateTicketView(),
+        ),
       ),
       GoRoute(
         path: kallTicketsViewRoute,
-        builder: (context, state) => const AllTicketsView(),
+        builder: (context, state) => BlocProvider<TicketCubit>.value(
+          value: sl<TicketCubit>(),
+          child: const AllTicketsView(),
+        ),
       ),
     ],
   );

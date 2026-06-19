@@ -12,7 +12,7 @@ class SwipeableTicketItem extends StatefulWidget {
   });
 
   final TicketModel ticket;
-  final ValueChanged<String> onDelete;
+  final ValueChanged<int> onDelete;
 
   @override
   State<SwipeableTicketItem> createState() => _SwipeableTicketItemState();
@@ -24,7 +24,7 @@ class _SwipeableTicketItemState extends State<SwipeableTicketItem> {
   Future<void> _openDeleteDialog() async {
     final confirmed = await DeleteTicketDialog.show(
       context,
-      ticketId: widget.ticket.id,
+      ticketId: widget.ticket.id.toString(),
     );
 
     if (confirmed && mounted) {
