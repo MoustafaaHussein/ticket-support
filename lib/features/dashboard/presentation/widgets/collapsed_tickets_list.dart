@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_app/features/dashboard/presentation/widgets/collapsed_tickets.dart';
+import 'package:ticket_app/features/tickets/data/models/ticket_model.dart';
 
 class CollapsedTicketsList extends StatelessWidget {
   const CollapsedTicketsList({super.key});
@@ -7,9 +8,9 @@ class CollapsedTicketsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 10,
+      itemCount: tickets.length - 3,
       itemBuilder: (context, index) {
-        return CollapsedTickets();
+        return CollapsedTickets(ticket: tickets[index]);
       },
     );
   }

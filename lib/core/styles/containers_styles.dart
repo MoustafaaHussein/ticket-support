@@ -21,4 +21,9 @@ abstract class AppContainersStyle {
         color: context.colors.surfaceBright,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       );
+  static BoxDecoration searchTextFieldContainer(BuildContext context) =>
+      BoxDecoration(
+        color: context.colors.onInverseSurface,
+        borderRadius: BorderRadius.circular(8),
+      );
 }

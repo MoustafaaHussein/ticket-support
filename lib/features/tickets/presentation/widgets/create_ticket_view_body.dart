@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ticket_app/core/constants/app_text_styles.dart';
+import 'package:ticket_app/core/router/app_router.dart';
 import 'package:ticket_app/core/styles/containers_styles.dart';
 import 'package:ticket_app/core/widgets/cancel_button.dart';
 import 'package:ticket_app/core/widgets/custom_text_field.dart';
@@ -189,7 +190,7 @@ class CreateTicketForm extends StatelessWidget {
               title: 'Cancel',
               icon: Icons.close,
               onPressed: () {
-                GoRouter.of(context).pop();
+                GoRouter.of(context).push(AppRouter.kallTicketsViewRoute);
               },
             ),
           ],
