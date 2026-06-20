@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ticket_app/core/constants/app_text_styles.dart';
-import 'package:ticket_app/core/router/app_router.dart';
 import 'package:ticket_app/core/styles/containers_styles.dart';
-import 'package:ticket_app/core/widgets/cancel_button.dart';
 import 'package:ticket_app/core/widgets/custom_text_field.dart';
 import 'package:ticket_app/core/widgets/primary_button.dart';
 import 'package:ticket_app/features/dashboard/domain/enum/tickets_piority.dart';
@@ -16,10 +13,7 @@ import 'package:ticket_app/features/tickets/presentation/widgets/piorty_card.dar
 import 'package:ticket_app/features/tickets/presentation/widgets/ticket_categories_list.dart';
 
 class CreateTicketViewBody extends StatefulWidget {
-  const CreateTicketViewBody({
-    super.key,
-    this.isSubmitting = false,
-  });
+  const CreateTicketViewBody({super.key, this.isSubmitting = false});
 
   final bool isSubmitting;
 
@@ -43,29 +37,29 @@ class _CreateTicketViewBodyState extends State<CreateTicketViewBody> {
 
   void _submitTicket(BuildContext context) {
     if (selectedPriority == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a priority')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please select a priority')));
       return;
     }
 
     if (selectedCategory == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a category')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please select a category')));
       return;
     }
 
     context.read<TicketCubit>().createTicket(
-          TicketModel(
-            id: 0,
-            title: subjectController.text.trim(),
-            description: descriptionController.text.trim(),
-            priority: selectedPriority!,
-            status: TicketStatus.open,
-            createdAt: DateTime.now(),
-          ),
-        );
+      TicketModel(
+        id: 0,
+        title: subjectController.text.trim(),
+        description: descriptionController.text.trim(),
+        priority: selectedPriority!,
+        status: TicketStatus.open,
+        createdAt: DateTime.now(),
+      ),
+    );
   }
 
   @override
@@ -230,13 +224,6 @@ class CreateTicketForm extends StatelessWidget {
                     },
             ),
             SizedBox(height: 20),
-            CancelButton(
-              title: 'Cancel',
-              icon: Icons.close,
-              onPressed: () {
-                GoRouter.of(context).push(AppRouter.kallTicketsViewRoute);
-              },
-            ),
           ],
         ),
       ),

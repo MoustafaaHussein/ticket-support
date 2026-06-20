@@ -29,14 +29,19 @@ class TicketsStatusGrid extends StatelessWidget {
     return const [];
   }
 
-  List<_TicketStat> _buildStats(BuildContext context, List<TicketModel> tickets) {
-    final openCount =
-        tickets.where((ticket) => ticket.status == TicketStatus.open).length;
+  List<_TicketStat> _buildStats(
+    BuildContext context,
+    List<TicketModel> tickets,
+  ) {
+    final openCount = tickets
+        .where((ticket) => ticket.status == TicketStatus.open)
+        .length;
     final inProgressCount = tickets
         .where((ticket) => ticket.status == TicketStatus.inProgress)
         .length;
-    final closedCount =
-        tickets.where((ticket) => ticket.status == TicketStatus.closed).length;
+    final closedCount = tickets
+        .where((ticket) => ticket.status == TicketStatus.closed)
+        .length;
 
     return [
       _TicketStat(
@@ -77,8 +82,8 @@ class TicketsStatusGrid extends StatelessWidget {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 1.5,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
+            mainAxisSpacing: 6,
+            crossAxisSpacing: 12,
           ),
           itemCount: stats.length,
           itemBuilder: (context, index) {

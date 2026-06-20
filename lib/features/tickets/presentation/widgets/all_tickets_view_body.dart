@@ -4,11 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:ticket_app/core/constants/app_text_styles.dart';
 import 'package:ticket_app/core/router/app_router.dart';
 import 'package:ticket_app/core/widgets/new_ticket_button.dart';
-import 'package:ticket_app/features/dashboard/presentation/widgets/tickets_list.dart';
 import 'package:ticket_app/features/tickets/data/models/tickets_status_model.dart';
-import 'package:ticket_app/features/tickets/presentation/cubit/ticket_cubit.dart';
-import 'package:ticket_app/features/tickets/presentation/cubit/ticket_state.dart';
+import 'package:ticket_app/features/tickets/presentation/cubit/search_cubit.dart';
+import 'package:ticket_app/features/tickets/presentation/cubit/search_state.dart';
 import 'package:ticket_app/features/tickets/presentation/widgets/search_text_field.dart';
+import 'package:ticket_app/features/tickets/presentation/widgets/search_tickets_list.dart';
 import 'package:ticket_app/features/tickets/presentation/widgets/tickets_status_cards.dart';
 
 class AllTicketsViewBody extends StatefulWidget {
@@ -30,7 +30,9 @@ class _AllTicketsViewBodyState extends State<AllTicketsViewBody> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SearchTextField(),
+              SearchTextField(
+                onChanged: context.read<SearchCubit>().updateQuery,
+              ),
               SizedBox(height: 12),
               Row(
                 children: ticketsStatus.map((status) {
@@ -44,6 +46,7 @@ class _AllTicketsViewBodyState extends State<AllTicketsViewBody> {
                           setState(() {
                             selectedStatus = status;
                           });
+                          context.read<SearchCubit>().filterByStatus(status);
                         },
                       ),
                     ),
@@ -51,11 +54,11 @@ class _AllTicketsViewBodyState extends State<AllTicketsViewBody> {
                 }).toList(),
               ),
               SizedBox(height: 20),
-              BlocBuilder<TicketCubit, TicketState>(
+              BlocBuilder<SearchCubit, SearchState>(
                 builder: (context, state) {
                   final count = switch (state) {
-                    TicketLoaded(:final tickets) => tickets.length,
-                    TicketsEmpty() => 0,
+                    SearchLoaded(:final tickets) => tickets.length,
+                    SearchEmpty() => 0,
                     _ => null,
                   };
 
@@ -68,7 +71,7 @@ class _AllTicketsViewBodyState extends State<AllTicketsViewBody> {
                 },
               ),
               SizedBox(height: 20),
-              Expanded(flex: 6, child: TicketsList()),
+              Expanded(flex: 6, child: SearchTicketsList()),
               SizedBox(height: 20),
             ],
           ),

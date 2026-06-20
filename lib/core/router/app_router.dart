@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ticket_app/core/utils/service_locator.dart';
 import 'package:ticket_app/features/dashboard/presentation/screens/home_view.dart';
 import 'package:ticket_app/features/tickets/data/models/ticket_model.dart';
+import 'package:ticket_app/features/tickets/presentation/cubit/search_cubit.dart';
 import 'package:ticket_app/features/tickets/presentation/cubit/ticket_cubit.dart';
 import 'package:ticket_app/features/tickets/presentation/screens/all_tickets_view.dart';
 import 'package:ticket_app/features/tickets/presentation/screens/create_ticket_view.dart';
@@ -33,8 +34,13 @@ class AppRouter {
       ),
       GoRoute(
         path: kallTicketsViewRoute,
-        builder: (context, state) => BlocProvider<TicketCubit>.value(
-          value: sl<TicketCubit>(),
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider<TicketCubit>.value(value: sl<TicketCubit>()),
+            BlocProvider<SearchCubit>(
+              create: (_) => sl<SearchCubit>()..startWatching(),
+            ),
+          ],
           child: const AllTicketsView(),
         ),
       ),

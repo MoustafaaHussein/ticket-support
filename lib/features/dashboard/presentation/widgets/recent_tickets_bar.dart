@@ -18,9 +18,7 @@ class RecentTicketsBar extends StatelessWidget {
 
           TextButton(
             onPressed: () {
-              GoRouter.of(
-                context,
-              ).pushReplacement(AppRouter.kallTicketsViewRoute);
+              GoRouter.of(context).push(AppRouter.kallTicketsViewRoute);
             },
             child: Text(
               'View All Tickets ->',

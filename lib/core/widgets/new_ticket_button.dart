@@ -30,13 +30,13 @@ class NewTicketButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, color: colors.onPrimary, size: 20),
+              Icon(icon, color: colors.primaryText, size: 20),
               const SizedBox(width: 8),
               Text(
                 title,
                 style: AppTextStyles.semiBold16Primary(
                   context,
-                ).copyWith(color: colors.onPrimary),
+                ).copyWith(color: colors.primaryText),
               ),
             ],
           ),

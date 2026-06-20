@@ -55,14 +55,14 @@ class _PrimaryButtonState extends State<PrimaryButton> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (widget.icon != null) ...[
-                  Icon(widget.icon, color: colors.onPrimary, size: 20),
+                  Icon(widget.icon, color: colors.primaryText, size: 20),
                   const SizedBox(width: 8),
                 ],
                 Text(
                   widget.title,
                   style: AppTextStyles.semiBold18Primary(
                     context,
-                  ).copyWith(color: colors.onPrimary),
+                  ).copyWith(color: colors.primaryText),
                 ),
               ],
             ),
