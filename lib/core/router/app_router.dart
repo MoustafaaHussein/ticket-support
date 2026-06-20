@@ -7,17 +7,23 @@ import 'package:ticket_app/features/tickets/presentation/cubit/search_cubit.dart
 import 'package:ticket_app/features/tickets/presentation/cubit/ticket_cubit.dart';
 import 'package:ticket_app/features/tickets/presentation/screens/all_tickets_view.dart';
 import 'package:ticket_app/features/tickets/presentation/screens/create_ticket_view.dart';
+import 'package:ticket_app/features/splash/presentation/screens/splash_screen.dart';
 import 'package:ticket_app/features/tickets/presentation/screens/ticket_details_view.dart';
 
 class AppRouter {
-  static const String khomeViewRoute = '/';
+  static const String ksplashViewRoute = '/';
+  static const String khomeViewRoute = '/home';
   static const String kcreateTicketViewRoute = '/create_ticket';
   static const String kallTicketsViewRoute = '/all_tickets';
   static const String kticketDetailsViewRoute = '/ticket_details';
 
   static final GoRouter router = GoRouter(
-    initialLocation: khomeViewRoute,
+    initialLocation: ksplashViewRoute,
     routes: [
+      GoRoute(
+        path: ksplashViewRoute,
+        builder: (context, state) => const SplashScreen(),
+      ),
       GoRoute(
         path: khomeViewRoute,
         builder: (context, state) => BlocProvider<TicketCubit>.value(
