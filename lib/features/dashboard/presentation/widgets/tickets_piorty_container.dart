@@ -9,7 +9,7 @@ class TicketsPiortyContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(6),
+      padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: piority.color,
         borderRadius: BorderRadius.circular(12),
@@ -17,7 +17,7 @@ class TicketsPiortyContainer extends StatelessWidget {
 
       child: Column(
         children: [
-          Text(piority.name, style: AppTextStyles.bold14Primary(context)),
+          Text(piority.name, style: AppTextStyles.semiBold18Primary(context)),
         ],
       ),
     );

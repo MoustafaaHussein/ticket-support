@@ -35,4 +35,22 @@ class TicketModel extends TicketsEntity {
     if (includeId) map['id'] = id;
     return map;
   }
+
+  TicketModel copyWith({
+    int? id,
+    String? title,
+    String? description,
+    TicketsPiority? priority,
+    TicketStatus? status,
+    DateTime? createdAt,
+  }) {
+    return TicketModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      priority: priority ?? this.priority,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 }

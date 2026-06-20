@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ticket_app/core/constants/app_text_styles.dart';
+import 'package:ticket_app/core/router/app_router.dart';
 import 'package:ticket_app/features/dashboard/presentation/widgets/swipeable_ticket_item.dart';
 import 'package:ticket_app/features/tickets/presentation/cubit/ticket_cubit.dart';
 import 'package:ticket_app/features/tickets/presentation/cubit/ticket_state.dart';
@@ -29,9 +31,9 @@ class _TicketsListState extends State<TicketsList> {
       listenWhen: (previous, current) => current is TicketError,
       listener: (context, state) {
         if (state is TicketError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.error)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.error)));
         }
       },
       builder: (context, state) {
@@ -70,10 +72,17 @@ class _TicketsListState extends State<TicketsList> {
           itemCount: tickets.length,
           itemBuilder: (context, index) {
             final ticket = tickets[index];
-            return SwipeableTicketItem(
-              key: ValueKey(ticket.id),
-              ticket: ticket,
-              onDelete: _deleteTicket,
+            return GestureDetector(
+              onTap: () {
+                GoRouter.of(
+                  context,
+                ).push(AppRouter.kticketDetailsViewRoute, extra: ticket);
+              },
+              child: SwipeableTicketItem(
+                key: ValueKey(ticket.id),
+                ticket: ticket,
+                onDelete: _deleteTicket,
+              ),
             );
           },
         );
