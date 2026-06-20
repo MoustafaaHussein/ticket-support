@@ -4,6 +4,7 @@ import 'package:ticket_app/core/styles/containers_styles.dart';
 import 'package:ticket_app/core/widgets/tickets_status_container.dart';
 import 'package:ticket_app/features/dashboard/presentation/widgets/tickets_piorty_container.dart';
 import 'package:ticket_app/features/tickets/data/models/ticket_model.dart';
+import 'package:ticket_app/features/tickets/domain/enums/ticket_category.dart';
 
 class TicketInfoContainer extends StatelessWidget {
   const TicketInfoContainer({super.key, required this.ticketModel});
@@ -66,6 +67,24 @@ class TicketInfoContainer extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 ticketModel.description,
+                style: AppTextStyles.semiBold18Secondary(context),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: AppContainersStyle.newTicketsContainer(context),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Category:',
+                style: AppTextStyles.semiBold18Secondary(context),
+              ),
+              Text(
+                ticketModel.category.displayName,
                 style: AppTextStyles.semiBold18Secondary(context),
               ),
             ],

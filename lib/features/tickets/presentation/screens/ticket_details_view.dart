@@ -21,7 +21,7 @@ class TicketDetailsView extends StatelessWidget {
         elevation: 0,
         backgroundColor: context.colors.primary,
         centerTitle: true,
-        title: const Text('All Tickets'),
+        title: const Text('Ticket Details'),
       ),
       body: TicketDetailsViewBody(ticketModel: ticketModel),
     );

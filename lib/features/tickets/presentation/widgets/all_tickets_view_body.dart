@@ -5,10 +5,12 @@ import 'package:ticket_app/core/constants/app_text_styles.dart';
 import 'package:ticket_app/core/router/app_router.dart';
 import 'package:ticket_app/core/widgets/new_ticket_button.dart';
 import 'package:ticket_app/features/tickets/data/models/tickets_status_model.dart';
+import 'package:ticket_app/features/tickets/domain/enums/ticket_category.dart';
 import 'package:ticket_app/features/tickets/presentation/cubit/search_cubit.dart';
 import 'package:ticket_app/features/tickets/presentation/cubit/search_state.dart';
 import 'package:ticket_app/features/tickets/presentation/widgets/search_text_field.dart';
 import 'package:ticket_app/features/tickets/presentation/widgets/search_tickets_list.dart';
+import 'package:ticket_app/features/tickets/presentation/widgets/ticket_category_filter_dropdown.dart';
 import 'package:ticket_app/features/tickets/presentation/widgets/tickets_status_cards.dart';
 
 class AllTicketsViewBody extends StatefulWidget {
@@ -20,6 +22,7 @@ class AllTicketsViewBody extends StatefulWidget {
 
 class _AllTicketsViewBodyState extends State<AllTicketsViewBody> {
   TicketsStatusModel selectedStatus = ticketsStatus.first;
+  TicketCategory? selectedCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,15 @@ class _AllTicketsViewBodyState extends State<AllTicketsViewBody> {
                   );
                 }).toList(),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
+              TicketCategoryFilterDropdown(
+                selectedCategory: selectedCategory,
+                onChanged: (category) {
+                  setState(() => selectedCategory = category);
+                  context.read<SearchCubit>().filterByCategory(category);
+                },
+              ),
+              const SizedBox(height: 20),
               BlocBuilder<SearchCubit, SearchState>(
                 builder: (context, state) {
                   final count = switch (state) {

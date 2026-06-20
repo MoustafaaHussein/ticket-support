@@ -1,12 +1,3 @@
-class TicketCategoryModel {
-  final String id;
-  final String name;
+import 'package:ticket_app/features/tickets/domain/enums/ticket_category.dart';
 
-  TicketCategoryModel({required this.id, required this.name});
-}
-
-List<TicketCategoryModel> ticketCategories = [
-  TicketCategoryModel(id: '1', name: 'Technical'),
-  TicketCategoryModel(id: '2', name: 'Billing'),
-  TicketCategoryModel(id: '3', name: 'General'),
-];
+const List<TicketCategory> ticketCategories = TicketCategory.values;

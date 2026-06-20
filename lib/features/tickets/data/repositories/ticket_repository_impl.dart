@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:ticket_app/features/tickets/data/datasources/tickets_local_data_source.dart';
 import 'package:ticket_app/features/tickets/data/models/ticket_model.dart';
+import 'package:ticket_app/features/tickets/domain/enums/ticket_category.dart';
 import 'package:ticket_app/features/tickets/domain/enums/ticket_status.dart';
 import 'package:ticket_app/features/tickets/domain/repositories/ticket_repository.dart';
 
@@ -48,10 +49,19 @@ class TicketRepositoryImpl implements TicketRepository {
   Stream<List<TicketModel>> watchSearch(
     String query, {
     TicketStatus? status,
+    TicketCategory? category,
   }) async* {
-    yield await _ticketsLocalDataSource.searchTickets(query, status: status);
+    yield await _ticketsLocalDataSource.searchTickets(
+      query,
+      status: status,
+      category: category,
+    );
     await for (final _ in _ticketsChanged.stream) {
-      yield await _ticketsLocalDataSource.searchTickets(query, status: status);
+      yield await _ticketsLocalDataSource.searchTickets(
+        query,
+        status: status,
+        category: category,
+      );
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:ticket_app/features/tickets/data/models/ticket_model.dart';
+import 'package:ticket_app/features/tickets/domain/enums/ticket_category.dart';
 import 'package:ticket_app/features/tickets/domain/enums/ticket_status.dart';
 
 abstract class TicketRepository {
@@ -9,5 +10,6 @@ abstract class TicketRepository {
   Stream<List<TicketModel>> watchSearch(
     String query, {
     TicketStatus? status,
+    TicketCategory? category,
   });
 }

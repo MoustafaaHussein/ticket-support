@@ -1,29 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ticket_app/features/tickets/data/models/ticket_category_model.dart';
+import 'package:ticket_app/features/tickets/domain/enums/ticket_category.dart';
 
-class CategoryPickerField extends StatelessWidget {
-  final TicketCategoryModel? selectedCategory;
-  final ValueChanged<TicketCategoryModel> onSelected;
-
-  const CategoryPickerField({
+class TicketCategoryPickerField extends StatelessWidget {
+  const TicketCategoryPickerField({
     super.key,
     required this.selectedCategory,
     required this.onSelected,
   });
 
+  final TicketCategory? selectedCategory;
+  final ValueChanged<TicketCategory> onSelected;
+
   Future<void> _showPicker(BuildContext context) async {
-    int selectedIndex = ticketCategories.indexWhere(
-      (e) => e.id == selectedCategory?.id,
+    var selectedIndex = ticketCategories.indexOf(
+      selectedCategory ?? ticketCategories.first,
     );
+    if (selectedIndex < 0) selectedIndex = 0;
 
-    if (selectedIndex == -1) {
-      selectedIndex = 0;
-    }
+    var tempSelected = ticketCategories[selectedIndex];
 
-    TicketCategoryModel tempSelected = ticketCategories[selectedIndex];
-
-    await showCupertinoModalPopup(
+    await showCupertinoModalPopup<void>(
       context: context,
       builder: (_) {
         return Container(
@@ -34,11 +32,11 @@ class CategoryPickerField extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: CupertinoButton(
-                  child: const Text('Done'),
                   onPressed: () {
                     onSelected(tempSelected);
                     Navigator.pop(context);
                   },
+                  child: const Text('Done'),
                 ),
               ),
               Expanded(
@@ -51,7 +49,9 @@ class CategoryPickerField extends StatelessWidget {
                     tempSelected = ticketCategories[index];
                   },
                   children: ticketCategories
-                      .map((e) => Center(child: Text(e.name)))
+                      .map(
+                        (category) => Center(child: Text(category.displayName)),
+                      )
                       .toList(),
                 ),
               ),
@@ -77,7 +77,7 @@ class CategoryPickerField extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                selectedCategory?.name ?? 'Select Category',
+                selectedCategory?.displayName ?? 'Select Category',
                 style: TextStyle(
                   color: selectedCategory == null ? Colors.grey : Colors.black,
                 ),

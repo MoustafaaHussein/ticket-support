@@ -5,6 +5,7 @@ import 'package:ticket_app/core/widgets/success_dialog.dart';
 import 'package:ticket_app/features/tickets/data/models/ticket_model.dart';
 import 'package:ticket_app/features/tickets/presentation/cubit/ticket_cubit.dart';
 import 'package:ticket_app/features/tickets/presentation/cubit/ticket_state.dart';
+import 'package:ticket_app/features/tickets/presentation/utils/ticket_clipboard.dart';
 import 'package:ticket_app/features/tickets/presentation/widgets/ticket_info_container.dart';
 import 'package:ticket_app/features/tickets/presentation/widgets/update_ticket_dialog.dart';
 
@@ -33,11 +34,8 @@ class _TicketDetailsViewBodyState extends State<TicketDetailsViewBody> {
 
     if (updatedTicket != null && mounted) {
       setState(() => _editedTicket = updatedTicket);
+      context.read<TicketCubit>().updateTicket(updatedTicket);
     }
-  }
-
-  void _updateTicket() {
-    context.read<TicketCubit>().updateTicket(_editedTicket);
   }
 
   @override
@@ -51,7 +49,7 @@ class _TicketDetailsViewBodyState extends State<TicketDetailsViewBody> {
             context,
             title: 'Ticket Updated!',
             message: 'Your ticket changes have been saved successfully.',
-            buttonText: 'Great!',
+            buttonText: 'Done',
           );
         } else if (state is TicketError) {
           ScaffoldMessenger.of(
@@ -81,10 +79,26 @@ class _TicketDetailsViewBodyState extends State<TicketDetailsViewBody> {
                 bottom: 24,
                 child: FloatingActionButton.small(
                   heroTag: 'edit_ticket_fab',
-                  backgroundColor: context.colors.primary,
+                  backgroundColor: context.colors.primaryContainer,
                   foregroundColor: context.colors.onPrimary,
                   onPressed: isSubmitting ? null : _openEditDialog,
                   child: const Icon(Icons.edit_outlined, size: 20),
+                ),
+              ),
+              Positioned(
+                left: 18,
+                bottom: 24,
+                child: FloatingActionButton.small(
+                  heroTag: 'copy_ticket_fab',
+                  backgroundColor: context.colors.primaryContainer,
+                  foregroundColor: context.colors.onPrimary,
+                  onPressed: () async {
+                    await copyTicketToClipboard(_editedTicket);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Ticket copied as JSON')),
+                    );
+                  },
+                  child: const Icon(Icons.copy, size: 20),
                 ),
               ),
             ],

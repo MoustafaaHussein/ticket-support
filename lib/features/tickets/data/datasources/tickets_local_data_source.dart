@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:ticket_app/features/tickets/data/models/ticket_model.dart';
+import 'package:ticket_app/features/tickets/domain/enums/ticket_category.dart';
 import 'package:ticket_app/features/tickets/domain/enums/ticket_status.dart';
 
 abstract class TicketsLocalDataSource {
@@ -10,6 +11,7 @@ abstract class TicketsLocalDataSource {
   Future<List<TicketModel>> searchTickets(
     String query, {
     TicketStatus? status,
+    TicketCategory? category,
   });
 }
 
@@ -46,6 +48,7 @@ class TicketsLocalDataSourceImpl implements TicketsLocalDataSource {
   Future<List<TicketModel>> searchTickets(
     String query, {
     TicketStatus? status,
+    TicketCategory? category,
   }) async {
     final q = query.trim();
     final whereClauses = <String>[];
@@ -61,6 +64,11 @@ class TicketsLocalDataSourceImpl implements TicketsLocalDataSource {
     if (status != null) {
       whereClauses.add('status = ?');
       whereArgs.add(status.name);
+    }
+
+    if (category != null) {
+      whereClauses.add('category = ?');
+      whereArgs.add(category.name);
     }
 
     final maps = await _database.query(
